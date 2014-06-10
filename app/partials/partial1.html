@@ -1,0 +1,27 @@
+<p>Travel Bids Demo</p>
+
+<div ng-controller="AuctionController">
+    <div class="thumbnail">
+      <img ng-src="{{auction.image}}" alt="Gift Card">
+      <div class="caption">
+          <h3>{{auction.name}}</h3>
+          <p>Enjoy travelling with Flight Center</p>
+          <p>
+              <h3 class="timer">
+                <span class="pull-right">{{auction.price | currency}}</span>
+              </h3>
+          </p>
+          <p>Balance: <b>{{user.balance}}</b></p>
+          <p>
+            <ul class="nav nav-pills nav-stacked">
+                <li ng-show="winner" class="bidder-winner"><a href="#">Winner: {{winner.$value}}</a></li>
+                <li ng-hide="winner" ng-repeat="bidder in biddingHistory" class="bidder-{{$index}}"><a href="#">Winning: {{bidder.username}}</a></li>
+            </ul>
+          </p>
+
+          <div class="control-buttons">
+              <button class="btn btn-lg" ng-click="bid()">Place Bid</button>
+          </div>
+      </div>
+    </div>
+</div>
