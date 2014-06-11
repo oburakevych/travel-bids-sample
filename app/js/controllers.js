@@ -25,8 +25,8 @@ angular.module('tbApp.controllers', [])
   	$scope.bid = function() {
   		if ($scope.canBid()) {
 			$scope.auction.$transaction(function(auction) {
-				auction.price = Math.round((auction.price + 0.01) * 100)/100;
-				auction.endDate = $scope.getNewEndDate();
+				auction.price = Math.round((auction.price + 0.01) * 100) / 100;
+				auction.endDate = TimeUtil.getNewEndDate($scope.auction.endDate, $scope.auction.COUNT_DOWN_TIME);
 
 				$scope.biddingHistoryEntry = $scope.biddingHistory.$add({'username': $scope.user.name, 'userId': $scope.user.id, 'date': Firebase.ServerValue.TIMESTAMP});	
 				$scope.user.balance -= 1;
@@ -43,35 +43,8 @@ angular.module('tbApp.controllers', [])
 	}
 
 	$scope.canBid = function() {
-		return $scope.user.balance > 0 && $scope.auction.status !== "FINISHED";
+		return $scope.user.balance > 0 && $scope.auction && $scope.auction.status !== "FINISHED";
 	}
-
-	$scope.getNewEndDate = function() {
-			var millis = Date.now() + $scope.auction.COUNT_DOWN_TIME;
-
-			if(millis < $scope.auction.endDate) {
-				return $scope.auction.endDate;
-			}
-
-			return millis;
-		}
-
-	$scope.resetTimer = function() {
-		$scope.auction.$transaction(function(auction) {
-				console.log("About to Set COUNTDOWN in transaction");
-				auction.status = "COUNTDOWN";
-				console.log("Set COUNTDOWN in transaction");
-				auction.endDate = Date.now() + $scope.resetSeconds * 1000;
-				auction.winnerUserId = null;
-				auction.price = 1.00;
-
-				return auction;
-		}).then(function() {
-			$scope.user.balance = 10;
-		});
-	}
-
-	$scope.resetSeconds = 20;
 
 	$scope.$on('AUCTION_FINISHED', function() {
 		$scope.auction.status = "FINISHED";

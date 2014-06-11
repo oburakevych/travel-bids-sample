@@ -82,3 +82,13 @@ TimeUtil.millisToReadableCountDownText = function(millis) {
 				+ seconds;
 
 }
+
+TimeUtil.getNewEndDate = function(currentEndDate, countDownTime) {
+	var millis = Date.now() + countDownTime;
+
+	if(millis < currentEndDate) {
+		return currentEndDate;
+	}
+
+	return millis;
+}

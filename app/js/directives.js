@@ -62,4 +62,23 @@ angular.module('tbApp.directives', [])
 			},
 			templateUrl: 'partials/tb-countdown-timer.html'
 		};
+	}])
+	.directive('tbResetTimer', [function() {
+		return {
+			restrict: 'AE',
+			link: function($scope, element, attrs) {
+				$scope.resetSeconds = 20;
+				
+				$scope.resetTimer = function() {
+					console.log("About to Set COUNTDOWN in transaction");
+					$scope.auction.status = "COUNTDOWN";
+					$scope.auction.endDate = Date.now() + $scope.resetSeconds * 1000;
+					$scope.auction.winnerUserId = null;
+					$scope.auction.price = 1.00;
+
+					$scope.user.balance = 10;
+				}
+			},
+			templateUrl: 'partials/tb-reset-timer.html'
+		}
 	}]);

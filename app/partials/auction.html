@@ -1,7 +1,6 @@
 <p>Travel Bids Demo</p>
 
 <div ng-controller="AuctionController">
-    <div ng-if="auction">
       <div class="thumbnail">
         <img ng-src="{{auction.image}}" alt="Gift Card">
         <div class="caption">
@@ -9,7 +8,7 @@
             <p>Enjoy travelling with Flight Center</p>
             <p>
                 <h3 class="timer">
-                	<span tb-countdown-timer class="pull-left"/>
+                	<span tb-countdown-timer ng-if="auction" class="pull-left"/>
                 </h3>
             </p>
             <p>{{auction.price | currency}}</p>
@@ -25,11 +24,7 @@
             <div class="control-buttons">
                 <button class="btn btn-lg" ng-click="bid()" ng-disabled="!canBid()">Place Bid</button>
             </div>
-            <p ng-show="auction.status == 'FINISHED'">
-              <button ng-click="resetTimer()">Reset Timer</button>
-              <input type="number" ng-model="resetSeconds">
-            </p>
+            <p ng-if="auction.status == 'FINISHED'" tb-reset-timer></p>
         </div>
       </div>
-    </div>
 </div>
