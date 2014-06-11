@@ -1,0 +1,35 @@
+<p>Travel Bids Demo</p>
+
+<div ng-controller="AuctionController">
+    <div ng-if="auction">
+      <div class="thumbnail">
+        <img ng-src="{{auction.image}}" alt="Gift Card">
+        <div class="caption">
+            <h3>{{auction.name}}</h3>
+            <p>Enjoy travelling with Flight Center</p>
+            <p>
+                <h3 class="timer">
+                	<span tb-countdown-timer class="pull-left"/>
+                </h3>
+            </p>
+            <p>{{auction.price | currency}}</p>
+            <p>
+              <ul class="nav nav-pills nav-stacked">
+                  <li ng-show="winner" class="bidder-winner"><a href="#">Winner: {{winner.$value}}</a></li>
+                  <li ng-hide="winner" ng-repeat="bidder in biddingHistory" class="bidder-{{$index}}">
+                    <a href="#"><span ng-if="$last">Winning: </span>{{bidder.username}}</a>
+                  </li>
+              </ul>
+            </p>
+            <p>Balance: <b>{{user.balance}}</b></p>
+            <div class="control-buttons">
+                <button class="btn btn-lg" ng-click="bid()" ng-disabled="!canBid()">Place Bid</button>
+            </div>
+            <p ng-show="auction.status == 'FINISHED'">
+              <button ng-click="resetTimer()">Reset Timer</button>
+              <input type="number" ng-model="resetSeconds">
+            </p>
+        </div>
+      </div>
+    </div>
+</div>
