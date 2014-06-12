@@ -13,6 +13,6 @@ angular.module('tbApp', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/auctions', {templateUrl: 'partials/tb-auctions.html'});
-  $routeProvider.when('/auctions/:auctionId', {templateUrl: 'partials/tb-auction.html', controller: 'AuctionController'});
+  $routeProvider.when('/auctions/:id', {templateUrl: 'partials/tb-auction.html', controller: 'AuctionController'});
   $routeProvider.otherwise({redirectTo: '/auctions'});
 }]);

@@ -3,42 +3,40 @@
 /* Controllers */
 
 angular.module('tbApp.controllers', [])
-  .controller('AuctionController', ['$scope', '$routeParams', '$firebase', 'firebaseReference', 
-  		function($scope, $routeParams, $firebase, firebaseReference) {
+  .controller('AuctionController', ['$scope', '$routeParams',  
+  		function($scope, $routeParams) {
   	$scope.user = {
   		name: "GUEST" + Math.floor(Math.random() * 101),
   		id: Math.floor(Math.random() * 101),
   		balance: 10
   	}
 
-  	var auctionRef = firebaseReference.child("auction").child($routeParams.auctionId); // -J-J9pK14iFXayBDe1H5
+  	$scope.auction = {
+  		id: $routeParams.id, // -J-J9pK14iFXayBDe1H5
+  		name: "6 Nights Stay in Fiji resort",
+  		endDate: Date.now() + 20000,
+  		image: "img/fiji.jpg",
+  		price: 1.00,
+  		status: "NEW",
+  		COUNT_DOWN_TIME: 10000
+  	}
 
-
-  	$firebase(auctionRef).$bind($scope, 'auction').then(
-  		function() {
-  			var biddingHistoryRef = firebaseReference.child('bidding-history/auction/' + $scope.auction.id);
-
-  			$scope.biddingHistory = $firebase(biddingHistoryRef.limit(5));
-  		}
-  	);
+  	$scope.biddingHistory = [];
 
   	$scope.bid = function() {
   		if ($scope.canBid()) {
-			$scope.auction.$transaction(function(auction) {
-				auction.price = Math.round((auction.price + 0.01) * 100) / 100;
-				auction.endDate = TimeUtil.getNewEndDate($scope.auction.endDate, $scope.auction.COUNT_DOWN_TIME);
+			$scope.auction.price = Math.round(($scope.auction.price + 0.01) * 100) / 100;
+			$scope.auction.endDate = TimeUtil.getNewEndDate($scope.auction.endDate, $scope.auction.COUNT_DOWN_TIME);
 
-				$scope.biddingHistoryEntry = $scope.biddingHistory.$add({'username': $scope.user.name, 'userId': $scope.user.id, 'date': Firebase.ServerValue.TIMESTAMP});	
-				$scope.user.balance -= 1;
-
-				return auction;
-			}).then(function(snapshot) {
-				// committed successfully				
-			}, function(error) {
-				console.error("Error increasing auction price: " + error);
-				$scope.biddingHistoryEntry.remove();
-				$scope.user.balance += 1;
-			});
+			$scope.biddingHistoryEntry = {
+				auctionId: $scope.auction.id,
+				username: $scope.user.name, 
+				userId: $scope.user.id, 
+				timestamp: Date.now()
+			};
+			$scope.biddingHistory.push($scope.biddingHistoryEntry);
+			
+			$scope.user.balance -= 1;
 		}
 	}
 
@@ -49,7 +47,7 @@ angular.module('tbApp.controllers', [])
 			&& $scope.auction.status !== "FINISHED";
 	}
 
-	$scope.$on('AUCTION_FINISHED', function() {
+	$scope.$on('AUCTION_FINISHED', function($event) {
 		$scope.auction.status = "FINISHED";
 
 		if (ArrayUtil.hasElements($scope.biddingHistory)) {
@@ -59,6 +57,8 @@ angular.module('tbApp.controllers', [])
 		}
 
 		console.log("WINNER: " + $scope.auction.winner.username);
+
+		$event.stopPropagation();
 	});
 
 	$scope.timer = {auctionVerify: false}

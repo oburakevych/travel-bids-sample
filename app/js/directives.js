@@ -72,7 +72,11 @@ angular.module('tbApp.directives', [])
 					console.log("About to Set COUNTDOWN in transaction");
 					$scope.timer.auctionVerify = false;
 
-					$scope.biddingHistory.$remove();
+					if (angular.isArray($scope.biddingHistory)) {
+						$scope.biddingHistory.length = 0; // clear history
+					} else if ($scope.biddingHistory.$remove) {
+						$scope.biddingHistory.$remove(); // clear history
+					}
 					
 					$scope.auction.winner = null;
 					$scope.auction.price = 1.00;
