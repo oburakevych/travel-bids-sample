@@ -12,7 +12,7 @@ angular.module('tbApp', [
   'firebase'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/auctions', {templateUrl: 'partials/auctions.html'});
-  $routeProvider.when('/auctions/:auctionId', {templateUrl: 'partials/auction.html', controller: 'AuctionController'});
+  $routeProvider.when('/auctions', {templateUrl: 'partials/tb-auctions.html'});
+  $routeProvider.when('/auctions/:auctionId', {templateUrl: 'partials/tb-auction.html', controller: 'AuctionController'});
   $routeProvider.otherwise({redirectTo: '/auctions'});
 }]);

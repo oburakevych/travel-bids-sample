@@ -14,8 +14,8 @@
             <p>{{auction.price | currency}}</p>
             <p>
               <ul class="nav nav-pills nav-stacked">
-                  <li ng-show="winner" class="bidder-winner"><a href="#">Winner: {{winner.$value}}</a></li>
-                  <li ng-hide="winner" ng-repeat="bidder in biddingHistory" class="bidder-{{$index}}">
+                  <li ng-show="auction.winner" class="bidder-winner"><a href="#">Winner: {{auction.winner.username}}</a></li>
+                  <li ng-hide="auction.winner" ng-repeat="bidder in biddingHistory" class="bidder-{{$index}}">
                     <a href="#"><span ng-if="$last">Winning: </span>{{bidder.username}}</a>
                   </li>
               </ul>

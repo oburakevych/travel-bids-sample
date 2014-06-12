@@ -32,8 +32,7 @@ angular.module('tbApp.directives', [])
 							if ($scope.timeLeft <= $scope.auction.COUNT_DOWN_TIME) {
 								if ($scope.timeLeft <= (AUCTION_VERIFY_CONDITION + 1000) && $scope.timeLeft > AUCTION_FINISHED_CONDITION) {
 									if (TimeUtil.millisToSeconds($scope.timeLeft) <= TimeUtil.millisToSeconds(AUCTION_VERIFY_CONDITION)) {
-										console.log("VERIFY");
-										$scope.auctionVerify = true;
+										$scope.timer.auctionVerify = true;
 									}
 								} else if ($scope.timeLeft <= AUCTION_FINISHED_CONDITION) {
 									if (TimeUtil.millisToSeconds($scope.timeLeft) <= TimeUtil.millisToSeconds(AUCTION_FINISHED_CONDITION)) {
@@ -52,7 +51,7 @@ angular.module('tbApp.directives', [])
 
 				$scope.finishAuction = function() {
 					console.log("Auction is finished");
-					$scope.auctionVerify = false;
+					$scope.timer.auctionVerify = false;
 					$scope.auctionFinished = true;
 
 					$scope.$emit('AUCTION_FINISHED', $scope.auction.id);
@@ -71,12 +70,16 @@ angular.module('tbApp.directives', [])
 				
 				$scope.resetTimer = function() {
 					console.log("About to Set COUNTDOWN in transaction");
-					$scope.auction.status = "COUNTDOWN";
-					$scope.auction.endDate = Date.now() + $scope.resetSeconds * 1000;
-					$scope.auction.winnerUserId = null;
-					$scope.auction.price = 1.00;
+					$scope.timer.auctionVerify = false;
 
+					$scope.biddingHistory.$remove();
+					
+					$scope.auction.winner = null;
+					$scope.auction.price = 1.00;
 					$scope.user.balance = 10;
+
+					$scope.auction.endDate = Date.now() + $scope.resetSeconds * 1000;
+					$scope.auction.status = "COUNTDOWN";
 				}
 			},
 			templateUrl: 'partials/tb-reset-timer.html'

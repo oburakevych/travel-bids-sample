@@ -43,23 +43,23 @@ angular.module('tbApp.controllers', [])
 	}
 
 	$scope.canBid = function() {
-		return $scope.user.balance > 0 && $scope.auction && $scope.auction.status !== "FINISHED";
+		return $scope.user.balance > 0 
+			&& $scope.auction 
+			&& !$scope.timer.auctionVerify
+			&& $scope.auction.status !== "FINISHED";
 	}
 
 	$scope.$on('AUCTION_FINISHED', function() {
 		$scope.auction.status = "FINISHED";
 
-		if ($scope.biddingHistory.$getIndex().length > 0) {
-			var historyArray = $scope.biddingHistory.$getIndex();
-
-			$scope.auction.winnerUserId = $scope.biddingHistory[historyArray[historyArray.length - 1]].username;
+		if (ArrayUtil.hasElements($scope.biddingHistory)) {
+			$scope.auction.winner = ArrayUtil.getLatestElement($scope.biddingHistory);
 		} else {
-			console.warn("Auction finished with no winner");
-			$scope.auction.winnerUserId = "nowinner";
+			$scope.auction.winner = {username: "nowinner", id: 0};
 		}
 
-		console.log("WINNER: " + $scope.auction.winnerUserId);
-					
-		//$scope.winner = $firebase(firebaseReference.child("/user/" + $scope.auction.winnerUserId + "/name"));
-	})
+		console.log("WINNER: " + $scope.auction.winner.username);
+	});
+
+	$scope.timer = {auctionVerify: false}
   }]);
