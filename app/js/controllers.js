@@ -6,8 +6,7 @@ angular.module('tbApp.controllers', [])
   .controller('AuctionController', ['$scope', '$routeParams',  
   		function($scope, $routeParams) {
   	$scope.user = {
-  		name: "GUEST" + Math.floor(Math.random() * 101),
-  		id: Math.floor(Math.random() * 101),
+  		name: "GUEST-" + Math.floor(Math.random() * 101),
   		balance: 10
   	}
 
@@ -57,8 +56,6 @@ angular.module('tbApp.controllers', [])
 		}
 
 		console.log("WINNER: " + $scope.auction.winner.username);
-
-		$event.stopPropagation();
 	});
 
 	$scope.timer = {auctionVerify: false}
