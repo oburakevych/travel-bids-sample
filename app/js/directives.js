@@ -9,10 +9,8 @@ angular.module('tbApp.directives', [])
 		return {
 			restrict: 'AE',
 			link: function($scope, element, attrs) {
-				$scope.serverOffsetMillis = 0;
-				
 				$scope.calculateTimeLeft = function() {
-					return $scope.auction.endDate - Date.now() - $scope.serverOffsetMillis;
+					return $scope.auction.endDate - Date.now() - $scope.getTimeOffset();
 				}
 
 				$scope.startCountdown = function() {

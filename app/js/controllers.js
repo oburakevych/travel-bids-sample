@@ -32,14 +32,14 @@ angular.module('tbApp.controllers', [])
   	$scope.bid = function() {
   		if ($scope.canBid()) {
 			$scope.auction.price = Math.round(($scope.auction.price + 0.01) * 100) / 100;
-			$scope.auction.endDate = TimeUtil.getNewEndDate($scope.auction.endDate, $scope.auction.COUNT_DOWN_TIME);
+			$scope.auction.endDate = TimeUtil.getNewEndDate($scope.auction.endDate, $scope.auction.COUNT_DOWN_TIME, $scope.getTimeOffset());
 
-			$scope.biddingHistoryEntry = {
+			var biddingHistoryEntry = {
 				auctionId: $scope.auction.id,
 				username: $scope.user.name, 
 				timestamp: Date.now()
 			};
-			$scope.biddingHistory.push($scope.biddingHistoryEntry);
+			$scope.biddingHistory.push(biddingHistoryEntry);
 			
 			$scope.user.balance -= 1;
 		}
@@ -56,6 +56,10 @@ angular.module('tbApp.controllers', [])
 
 		console.log("WINNER: " + $scope.auction.winner.username);
 	});
+
+	$scope.getTimeOffset = function() {
+		return 0;
+	}
 
 	$scope.timer = {isBeingVerified: false}
   }]);
