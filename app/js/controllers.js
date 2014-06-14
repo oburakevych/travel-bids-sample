@@ -13,11 +13,11 @@ angular.module('tbApp.controllers', [])
   	$scope.auction = {
   		id: $routeParams.id, // -J-J9pK14iFXayBDe1H5
   		name: "6 Nights Stay in Fiji resort",
-  		endDate: Date.now() + 20000,
+  		endDate: Date.now() + 20000, // 20 seconds from now
   		image: "img/fiji.jpg",
   		price: 1.00,
   		status: "NEW",
-  		COUNT_DOWN_TIME: 10000
+  		COUNT_DOWN_TIME: 10000 // when the timer can be reset
   	}
 
   	$scope.biddingHistory = [];
