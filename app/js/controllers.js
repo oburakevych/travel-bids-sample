@@ -22,6 +22,13 @@ angular.module('tbApp.controllers', [])
 
   	$scope.biddingHistory = [];
 
+  	$scope.canBid = function() {
+		return $scope.user.balance > 0 
+			&& $scope.auction 
+			&& $scope.auction.status !== "FINISHED"
+			&& !$scope.timer.isBeingVerified;
+	}
+
   	$scope.bid = function() {
   		if ($scope.canBid()) {
 			$scope.auction.price = Math.round(($scope.auction.price + 0.01) * 100) / 100;
@@ -30,20 +37,12 @@ angular.module('tbApp.controllers', [])
 			$scope.biddingHistoryEntry = {
 				auctionId: $scope.auction.id,
 				username: $scope.user.name, 
-				userId: $scope.user.id, 
 				timestamp: Date.now()
 			};
 			$scope.biddingHistory.push($scope.biddingHistoryEntry);
 			
 			$scope.user.balance -= 1;
 		}
-	}
-
-	$scope.canBid = function() {
-		return $scope.user.balance > 0 
-			&& $scope.auction 
-			&& !$scope.timer.auctionVerify
-			&& $scope.auction.status !== "FINISHED";
 	}
 
 	$scope.$on('AUCTION_FINISHED', function($event) {
@@ -58,5 +57,5 @@ angular.module('tbApp.controllers', [])
 		console.log("WINNER: " + $scope.auction.winner.username);
 	});
 
-	$scope.timer = {auctionVerify: false}
+	$scope.timer = {isBeingVerified: false}
   }]);

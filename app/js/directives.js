@@ -22,7 +22,7 @@ angular.module('tbApp.directives', [])
 						$scope.$apply(function() {
 							//var start = Date.now();
 							if ($scope.auction.status === 'FINISHED') {
-								$scope.auctionVerify = false;
+								$scope.timer.isBeingVerified = false;
 								$scope.auctionFinished = true;
 								return;
 							}
@@ -32,7 +32,7 @@ angular.module('tbApp.directives', [])
 							if ($scope.timeLeft <= $scope.auction.COUNT_DOWN_TIME) {
 								if ($scope.timeLeft <= (AUCTION_VERIFY_CONDITION + 1000) && $scope.timeLeft > AUCTION_FINISHED_CONDITION) {
 									if (TimeUtil.millisToSeconds($scope.timeLeft) <= TimeUtil.millisToSeconds(AUCTION_VERIFY_CONDITION)) {
-										$scope.timer.auctionVerify = true;
+										$scope.timer.isBeingVerified = true;
 									}
 								} else if ($scope.timeLeft <= AUCTION_FINISHED_CONDITION) {
 									if (TimeUtil.millisToSeconds($scope.timeLeft) <= TimeUtil.millisToSeconds(AUCTION_FINISHED_CONDITION)) {
@@ -51,7 +51,7 @@ angular.module('tbApp.directives', [])
 
 				$scope.finishAuction = function() {
 					console.log("Auction is finished");
-					$scope.timer.auctionVerify = false;
+					$scope.timer.isBeingVerified = false;
 					$scope.auctionFinished = true;
 
 					$scope.$emit('AUCTION_FINISHED', $scope.auction.id);
