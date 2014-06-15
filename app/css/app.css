@@ -1,4 +1,7 @@
 /* app css stylesheet */
+body {
+  font-family: Arial,Helvetica,sans-serif;
+}
 
 .menu {
   list-style: none;
@@ -28,3 +31,75 @@
   content: "";
   padding: 0;
 }
+
+.bidder-0 {
+  text-align: center;
+  font-size: 24px;
+}
+
+.bidder-0  a {
+    background-color: rgba(240, 240, 200, 1);
+}
+
+.bidder-winner {
+  text-align: center;
+  font-size: 24px;
+}
+
+.bidder-winner a {
+    background-color: rgba(0, 0, 0, 1);  
+}
+
+.timer {
+  height: 36px;
+  overflow: hidden;
+  vertical-align: center;
+}
+
+.count {
+  float: left;
+
+  &.once {
+    background-color: blue;  
+  }
+
+  &.twice {
+    background-color: green;  
+  }
+
+  &.final {
+    background-color: red;  
+  }
+
+  &.verify {
+    background-color: navy;
+  }
+}
+
+.price {
+  color: #0064D2;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.history {
+  max-height: 80px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.history ul {
+  list-style: none;
+}
+
+.control-buttons {
+  min-height: 120px;
+}
+
+.tb-reset-timer {
+  margin: 36px -14px 4px -14px;
+  border-top: 1px solid #DDDDDD;
+  padding: 14px 8px 4px 8px;
+}
+
+// Animation
