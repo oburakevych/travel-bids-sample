@@ -1,0 +1,12 @@
+<div ng-switch on="!authUser">
+  <div ng-switch-when="false" class="navbar-btn">
+    <ul class="nav nav-pills nav-stacked">
+      <li class="active">
+        <a href="#" >
+          <span class="badge pull-right">{{authUser.balance}}</span>
+          Tokens&nbsp;
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -3,9 +3,9 @@
 /* Controllers */
 
 angular.module('tbApp.controllers', [])
-  .controller('AuctionController', ['$scope', '$routeParams',  
-  		function($scope, $routeParams) {
-  	$scope.user = {
+  .controller('AuctionController', ['$rootScope', '$scope', '$routeParams',  
+  		function($rootScope, $scope, $routeParams) {
+  	$rootScope.user = {
   		name: "GUEST-" + Math.floor(Math.random() * 101),
   		balance: 10
   	}
