@@ -22,7 +22,7 @@
         <div class="history pull-right">
             <ul>
                 <li ng-repeat="bidder in biddingHistory | orderBy: 'timestamp' : true | limitTo : 5">
-                    <div ng-if="!$first"><a href="#">{{bidder.username}}</a> : {{bidder.price | currency}}</div>
+                    <span ng-if="!$first"><a href="#">{{bidder.username}}</a> : {{bidder.price | currency}}</span>
                 </li>
             </ul>
         </div>
