@@ -3,12 +3,15 @@
 /* Controllers */
 
 angular.module('tbApp.controllers', [])
-  .controller('AuctionController', ['$rootScope', '$scope', '$routeParams',  
-  		function($rootScope, $scope, $routeParams) {
+  .controller('UserController', ['$rootScope' ,'$scope',
+		function($rootScope, $scope) {
   	$rootScope.user = {
   		name: "GUEST-" + Math.floor(Math.random() * 101),
   		balance: 10
   	}
+  }])
+  .controller('AuctionController', ['$rootScope', '$scope', '$routeParams',  
+  		function($rootScope, $scope, $routeParams) {
 
   	$scope.auction = {
   		id: $routeParams.id, // -J-J9pK14iFXayBDe1H5
@@ -37,20 +40,26 @@ angular.module('tbApp.controllers', [])
 
 			var biddingHistoryEntry = {
 				auctionId: $scope.auction.id,
+				price: $scope.auction.price,
 				username: $scope.user.name, 
 				timestamp: Date.now()
 			};
+			
 			$scope.biddingHistory.push(biddingHistoryEntry);
 			
 			$scope.user.balance -= 1;
 		}
 	}
 
+	$scope.getWinningBid = function() {
+		return ArrayUtil.getLatestElement($scope.biddingHistory);
+	}
+
 	$scope.$on('AUCTION_FINISHED', function($event) {
 		$scope.auction.status = "FINISHED";
 
 		if (ArrayUtil.hasElements($scope.biddingHistory)) {
-			$scope.auction.winner = ArrayUtil.getLatestElement($scope.biddingHistory);
+			$scope.auction.winner = $scope.getWinningBid();
 		} else {
 			$scope.auction.winner = {username: "nowinner", id: 0};
 		}

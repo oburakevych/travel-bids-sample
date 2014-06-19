@@ -1,6 +1,7 @@
 /* app css stylesheet */
 body {
   font-family: Arial,Helvetica,sans-serif;
+  padding-top: 70px;
 }
 
 .menu {
@@ -10,43 +11,21 @@ body {
   padding: 0 0 0.5em;
 }
 
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
-
-.bidder-0 {
+.winning-bid {
   text-align: center;
   font-size: 24px;
 }
 
-.bidder-0  a {
+.winning-bid a {
     background-color: rgba(240, 240, 200, 1);
 }
 
-.bidder-winner {
+.winner-bid {
   text-align: center;
   font-size: 24px;
 }
 
-.bidder-winner a {
+.winner-bid a {
     background-color: rgba(0, 0, 0, 1);  
 }
 
@@ -58,22 +37,6 @@ body {
 
 .count {
   float: left;
-
-  &.once {
-    background-color: blue;  
-  }
-
-  &.twice {
-    background-color: green;  
-  }
-
-  &.final {
-    background-color: red;  
-  }
-
-  &.verify {
-    background-color: navy;
-  }
 }
 
 .price {
@@ -84,8 +47,6 @@ body {
 
 .history {
   max-height: 80px;
-  overflow: hidden;
-  //overflow-y: auto;
 }
 
 .history ul {
@@ -102,32 +63,6 @@ body {
   padding: 14px 8px 4px 8px;
 }
 
-
-
-.header .navbar {
-    min-height: 64px;
-    background: transparent url('../img/noise.png') repeat; /*IE fix*/
-    background: rgba(0, 0, 0, 0.70) url('../img/noise.png') repeat;
-  }
-
-.header .logo {
-    font-size: 24px;
-    color: white;
-  }
-.header .demo {
-    color: yellow;
-    font-size: 14px;
-    font-family: cursive;
-  }
-
-.header .lastitem {
-    width: 100px;
-  }
-
 .header a {
     cursor: pointer;
-}
-
-.content {
-  margin-top: 88px;
 }

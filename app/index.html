@@ -23,8 +23,10 @@
 
   <header ng-include="'partials/header.html'" class="header"></header>
 
-  <section class="content">
-    <div ng-view></div>
+  <section class="container">
+    <div class="row">
+      <div ng-view class="col-xs-12 col-sm-6 col-md-4"></div>
+    </div>
   </section>
 
   <!-- In production use:
