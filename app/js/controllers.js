@@ -6,7 +6,7 @@ angular.module('tbApp.controllers', [])
   .controller('UserController', ['$rootScope' ,'$scope',
 		function($rootScope, $scope) {
   	$rootScope.user = {
-  		name: "GUEST-" + Math.floor(Math.random() * 101),
+  		displayName: "GUEST-" + Math.floor(Math.random() * 101),
   		balance: 10
   	}
   }])
@@ -27,7 +27,8 @@ angular.module('tbApp.controllers', [])
   	$scope.biddingHistory = [];
 
   	$scope.canBid = function() {
-		return $scope.user.balance > 0 
+		return $rootScope.user
+			&& $rootScope.user.balance > 0 
 			&& $scope.auction 
 			&& $scope.auction.status !== "FINISHED"
 			&& !$scope.timer.isBeingVerified;
@@ -41,7 +42,7 @@ angular.module('tbApp.controllers', [])
 			var biddingHistoryEntry = {
 				auctionId: $scope.auction.id,
 				price: $scope.auction.price,
-				username: $scope.user.name, 
+				username: $rootScope.user.displayName, 
 				timestamp: Date.now()
 			};
 			

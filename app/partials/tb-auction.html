@@ -1,4 +1,4 @@
-<div class="thumbnail">
+<div ng-if="auction" class="thumbnail">
     <img ng-src="{{auction.image}}" alt="{{auction.name}}">
     <div class="caption">
         <h3>{{auction.name}}</h3>
@@ -14,7 +14,7 @@
                     <a href="#">Winner: {{auction.winner.username}}</a>
                 </li>
                 <li ng-if="!auction.winner && biddingHistory.length > 0" class="winning-bid">
-                    <a href="#">Winning: {{getWinningBid().username}}</a>
+                    <a href="#">{{getWinningBid().username}}</a>
                 </li>
             </ul>
         </p>
@@ -29,7 +29,7 @@
 
         <div class="control-buttons">
             <p><button class="btn btn-primary btn-lg" ng-click="bid()" ng-disabled="!canBid()">Place Bid</button></p>
-            <p ng-if="auction.status == 'FINISHED'" tb-reset-timer></p>
+            <p ng-if="auction.status == 'FINISHED' && user" tb-reset-timer></p>
         </div>
     </div>
 </div>
