@@ -9,7 +9,8 @@ angular.module('tbApp', [
   'tbApp.services',
   'tbApp.directives',
   'tbApp.controllers',
-  'tbApp.config'
+  'tbApp.config',
+  'firebase'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/auctions', {templateUrl: 'partials/tb-auctions.html'});

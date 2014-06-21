@@ -3,30 +3,22 @@
 /* Controllers */
 
 angular.module('tbApp.controllers', [])
-  .controller('UserController', ['$rootScope' ,'$scope',
-		function($rootScope, $scope) {
+  .controller('UserController', ['$rootScope' ,'$scope', '$firebaseSimpleLogin', 'firebaseReference',
+		function($rootScope, $scope, $firebaseSimpleLogin, firebaseReference) {
+	var auth = $firebaseSimpleLogin(firebaseReference);
 	$scope.signin = function() {
-	  	$rootScope.user = {
-	  		displayName: "GUEST-" + Math.floor(Math.random() * 101),
-	  		balance: 10
-	  	}
+		auth.$login('facebook').then(function(user) {
+			$rootScope.user	 = user;
+			$rootScope.user.balance = 10;
+		});
 	 }
   }])
-  .controller('AuctionController', ['$rootScope', '$scope', '$routeParams',  
-  		function($rootScope, $scope, $routeParams) {
+  .controller('AuctionController', ['$rootScope', '$scope', '$routeParams',  '$firebase', 'firebaseReference',
+  		function($rootScope, $scope, $routeParams, $firebase, firebaseReference) {
 
-  	$scope.auction = {
-  		id: $routeParams.id, // -J-J9pK14iFXayBDe1H5
-  		name: "6 Nights Stay in Fiji",
-  		description: "5 stars resort on Turtle Island",
-  		endDate: Date.now() + 20000, // 20 seconds from now
-  		image: "img/Turtle-Island.jpg",
-  		price: 0.01,
-  		status: "NEW",
-  		COUNT_DOWN_TIME: 10000 // when the timer can be reset
-  	}
-
-  	$scope.biddingHistory = [];
+  	$firebase(firebaseReference.child('auction').child($routeParams.id)).$bind($scope, 'auction').then(function() {
+  		$scope.biddingHistory = $firebase(firebaseReference.child("biddingHistory").child($scope.auction.id).limit(5));
+  	});
 
   	$scope.canBid = function() {
 		return $rootScope.user
@@ -38,19 +30,32 @@ angular.module('tbApp.controllers', [])
 
   	$scope.bid = function() {
   		if ($scope.canBid()) {
-			$scope.auction.price = Math.round(($scope.auction.price + 0.01) * 100) / 100;
-			$scope.auction.endDate = TimeUtil.getNewEndDate($scope.auction.endDate, $scope.auction.COUNT_DOWN_TIME, $scope.getTimeOffset());
+  			$scope.auction.$transaction(function(auction) {
+				auction.price = Math.round((auction.price + 0.01) * 100) / 100;
+				auction.endDate = TimeUtil.getNewEndDate(auction.endDate, auction.COUNT_DOWN_TIME, $scope.getTimeOffset());
 
-			var biddingHistoryEntry = {
-				auctionId: $scope.auction.id,
-				price: $scope.auction.price,
-				username: $rootScope.user.displayName, 
-				timestamp: Date.now()
-			};
-			
-			$scope.biddingHistory.push(biddingHistoryEntry);
-			
-			$scope.user.balance -= 1;
+				return auction;
+  			}).then(function(snapshot) {
+  				if (!snapshot) {
+  					console.log("transaction aborded");
+  				} else {
+  					var auction = snapshot.val();
+					var biddingHistoryEntry = {
+						auctionId: auction.id,
+						price: auction.price,
+						username: $rootScope.user.displayName, 
+						timestamp: Date.now()
+					};
+					
+					$scope.biddingHistory.$add(biddingHistoryEntry);
+					
+					$scope.user.balance -= 1;					
+  				}
+  			}, function(error) {
+  				console.warn(error);
+  			});
+
+
 		}
 	}
 
