@@ -5,10 +5,12 @@
 angular.module('tbApp.controllers', [])
   .controller('UserController', ['$rootScope' ,'$scope',
 		function($rootScope, $scope) {
-  	$rootScope.user = {
-  		displayName: "GUEST-" + Math.floor(Math.random() * 101),
-  		balance: 10
-  	}
+	$scope.signin = function() {
+	  	$rootScope.user = {
+	  		displayName: "GUEST-" + Math.floor(Math.random() * 101),
+	  		balance: 10
+	  	}
+	 }
   }])
   .controller('AuctionController', ['$rootScope', '$scope', '$routeParams',  
   		function($rootScope, $scope, $routeParams) {
