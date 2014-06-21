@@ -9,10 +9,8 @@ angular.module('tbApp.directives', [])
 		return {
 			restrict: 'AE',
 			link: function($scope, element, attrs) {
-				$scope.serverOffsetMillis = 0;
-				
 				$scope.calculateTimeLeft = function() {
-					return $scope.auction.endDate - Date.now() - $scope.serverOffsetMillis;
+					return $scope.auction.endDate - Date.now() - $scope.getTimeOffset();
 				}
 
 				$scope.startCountdown = function() {
@@ -22,7 +20,7 @@ angular.module('tbApp.directives', [])
 						$scope.$apply(function() {
 							//var start = Date.now();
 							if ($scope.auction.status === 'FINISHED') {
-								$scope.auctionVerify = false;
+								$scope.timer.isBeingVerified = false;
 								$scope.auctionFinished = true;
 								return;
 							}
@@ -32,7 +30,7 @@ angular.module('tbApp.directives', [])
 							if ($scope.timeLeft <= $scope.auction.COUNT_DOWN_TIME) {
 								if ($scope.timeLeft <= (AUCTION_VERIFY_CONDITION + 1000) && $scope.timeLeft > AUCTION_FINISHED_CONDITION) {
 									if (TimeUtil.millisToSeconds($scope.timeLeft) <= TimeUtil.millisToSeconds(AUCTION_VERIFY_CONDITION)) {
-										$scope.timer.auctionVerify = true;
+										$scope.timer.isBeingVerified = true;
 									}
 								} else if ($scope.timeLeft <= AUCTION_FINISHED_CONDITION) {
 									if (TimeUtil.millisToSeconds($scope.timeLeft) <= TimeUtil.millisToSeconds(AUCTION_FINISHED_CONDITION)) {
@@ -51,7 +49,7 @@ angular.module('tbApp.directives', [])
 
 				$scope.finishAuction = function() {
 					console.log("Auction is finished");
-					$scope.timer.auctionVerify = false;
+					$scope.timer.isBeingVerified = false;
 					$scope.auctionFinished = true;
 
 					$scope.$emit('AUCTION_FINISHED', $scope.auction.id);
@@ -72,10 +70,14 @@ angular.module('tbApp.directives', [])
 					console.log("About to Set COUNTDOWN in transaction");
 					$scope.timer.auctionVerify = false;
 
-					$scope.biddingHistory.$remove();
+					if (angular.isArray($scope.biddingHistory)) {
+						$scope.biddingHistory.length = 0; // clear history
+					} else if ($scope.biddingHistory.$remove) {
+						$scope.biddingHistory.$remove(); // clear history
+					}
 					
 					$scope.auction.winner = null;
-					$scope.auction.price = 1.00;
+					$scope.auction.price = 0.01;
 					$scope.user.balance = 10;
 
 					$scope.auction.endDate = Date.now() + $scope.resetSeconds * 1000;

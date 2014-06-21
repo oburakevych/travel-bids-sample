@@ -1,0 +1,17 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container" ng-controller="UserController" ng-switch="!user">
+        <div ng-switch-when="false">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="pull-left">
+                    <a href="#" class="navbar-link">{{user.displayName}}</a>
+                </li>
+                <li class="active pull-right">
+                    <a href="#" ><span class="badge pull-right">{{user.balance}}</span>Tokens&nbsp;</a>
+                </li>
+            </ul>
+        </div>
+        <div ng-switch-default>
+            <button class="btn btn-success login" ng-click="signin()">Sign in</button>
+        </div>
+    </div> 
+</nav>

@@ -30,19 +30,19 @@ TimeUtil.millisToFinalCountDownText = function(millis) {
 	if (seconds <= 0) {
 		switch(seconds) {
 			case 0:
-				readableText = "COUNTING ONCE";
+				readableText = "counting once";
 				break;
 			case -1:
-				readableText = "COUNTING TWICE";
+				readableText = "counting twice";
 				break;
 			case -2:
-				readableText = "FINAL CALL";
+				readableText = "final call";
 				break;
 			case -3:
-				readableText = "VERIFYING";
+				readableText = "verifying";
 				break;
 			case -4:
-				readableText = "VERIFYING";
+				readableText = "verifying";
 				break;
 			case -5:
 				readableText = "FINISHED";
@@ -83,8 +83,8 @@ TimeUtil.millisToReadableCountDownText = function(millis) {
 
 }
 
-TimeUtil.getNewEndDate = function(currentEndDate, countDownTime) {
-	var millis = Date.now() + countDownTime;
+TimeUtil.getNewEndDate = function(currentEndDate, countDownTime, offset) {
+	var millis = Date.now() + countDownTime + offset;
 
 	if(millis < currentEndDate) {
 		return currentEndDate;

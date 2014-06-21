@@ -1,4 +1,8 @@
 /* app css stylesheet */
+body {
+  font-family: Arial,Helvetica,sans-serif;
+  padding-top: 60px;
+}
 
 .menu {
   list-style: none;
@@ -7,24 +11,66 @@
   padding: 0 0 0.5em;
 }
 
-.menu:before {
-  content: "[";
+.container {
+  padding-top: 2px;
 }
 
-.menu:after {
-  content: "]";
+.winning-bid {
+  text-align: center;
+  font-size: 24px;
 }
 
-.menu > li {
-  display: inline;
+.winning-bid a {
+    background-color: rgba(240, 240, 200, 1);
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+.winner-bid {
+  text-align: center;
+  font-size: 24px;
 }
 
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+.winner-bid a {
+    background-color: rgba(0, 0, 0, 1);  
+}
+
+.timer {
+  height: 36px;
+  overflow: hidden;
+  vertical-align: center;
+}
+
+.count {
+  float: left;
+}
+
+.price {
+  color: #0064D2;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.history {
+  max-height: 80px;
+}
+
+.history ul {
+  list-style: none;
+}
+
+.control-buttons {
+  min-height: 120px;
+}
+
+.tb-reset-timer {
+  margin: 36px -14px 4px -14px;
+  border-top: 1px solid #DDDDDD;
+  padding: 14px 8px 4px 8px;
+}
+
+.header a {
+    cursor: pointer;
+}
+
+.login {
+  margin-top: 5px;
 }
