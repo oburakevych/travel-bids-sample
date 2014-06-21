@@ -77,7 +77,7 @@ angular.module('tbApp.directives', [])
 					}
 					
 					$scope.auction.winner = null;
-					$scope.auction.price = 1.00;
+					$scope.auction.price = 0.01;
 					$scope.user.balance = 10;
 
 					$scope.auction.endDate = Date.now() + $scope.resetSeconds * 1000;

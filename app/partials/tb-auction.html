@@ -9,12 +9,12 @@
             </h3>
         </p>
         <p>
-            <ul class="nav nav-pills nav-stacked">
-                <li ng-if="auction.winner" class="winner-bid">
+            <ul ng-switch="auction.status" class="nav nav-pills nav-stacked">
+                <li ng-switch-when="FINISHED" class="winner-bid">
                     <a href="#">Winner: {{auction.winner.username}}</a>
                 </li>
-                <li ng-if="!auction.winner && biddingHistory.length > 0" class="winning-bid">
-                    <a href="#">{{getWinningBid().username}}</a>
+                <li ng-switch-default class="winning-bid">
+                    <a href="#" ng-show="getWinningBid()">{{getWinningBid().username}}</a>
                 </li>
             </ul>
         </p>
