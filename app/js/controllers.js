@@ -21,7 +21,7 @@ angular.module('tbApp.controllers', [])
   		description: "5 stars resort on Turtle Island",
   		endDate: Date.now() + 20000, // 20 seconds from now
   		image: "img/Turtle-Island.jpg",
-  		price: 1.00,
+  		price: 0.01,
   		status: "NEW",
   		COUNT_DOWN_TIME: 10000 // when the timer can be reset
   	}
